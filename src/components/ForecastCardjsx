@@ -1,0 +1,24 @@
+export default function ForecastCard({ forecast }) {
+  const getIcon = (type) => {
+    if (type.includes("Rain")) return "🌧️";
+    if (type.includes("Cloud")) return "☁️";
+    if (type.includes("Clear")) return "☀️";
+    if (type.includes("Snow")) return "❄️";
+    return "🌍";
+  };
+
+  return (
+    <div className="flex gap-4 mt-6 overflow-x-auto px-4">
+      {forecast.map((f, i) => (
+        <div
+          key={i}
+          className="bg-white/10 p-4 rounded-xl min-w-[120px] text-center shadow-md"
+        >
+          <p className="text-lg">{new Date(f.dt_txt).getHours()}:00</p>
+          <div className="text-3xl">{getIcon(f.weather[0].main)}</div>
+          <p className="text-xl">{Math.round(f.main.temp)}°C</p>
+        </div>
+      ))}
+    </div>
+  );
+}

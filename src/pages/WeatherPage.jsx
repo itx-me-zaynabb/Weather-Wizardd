@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getWeather, getForecast } from "../services/WeatherAPI";
+import { getWeather, getForecast } from "../services/weatherApi";
+import Loader from "../components/Loader";
 import { motion } from "framer-motion";
 
 export default function WeatherPage() {
@@ -21,19 +22,37 @@ export default function WeatherPage() {
       .finally(() => setLoading(false));
   }, [city]);
 
-  if (loading)
-    return <p className="text-white text-center mt-10">Loading...</p>;
+  if (loading) return <Loader />;
+  if (!weather) return <p className="text-white text-center">No Data</p>;
 
-  if (!weather) return <p className="text-white text-center mt-10">No Data</p>;
+  const getIcon = (type) => {
+    if (type.includes("Rain")) return "🌧";
+    if (type.includes("Cloud")) return "☁";
+    if (type.includes("Clear")) return "☀";
+    return "🌍";
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-700 text-white p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-700 text-white p-6 relative">
+      {/* Glow */}
+      <div className="absolute w-72 h-72 bg-purple-500 blur-3xl opacity-20 top-10 left-10"></div>
+      <div className="absolute w-72 h-72 bg-blue-500 blur-3xl opacity-20 bottom-10 right-10"></div>
+
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-white/10 backdrop-blur-xl p-6 rounded-3xl max-w-md mx-auto"
       >
         <h1 className="text-3xl font-bold">{weather.name}</h1>
+
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ repeat: Infinity, duration: 2 }}
+          className="text-6xl"
+        >
+          {getIcon(weather.weather[0].main)}
+        </motion.div>
+
         <p className="text-5xl">{Math.round(weather.main.temp)}°C</p>
 
         <div className="mt-4 grid grid-cols-2 gap-2">

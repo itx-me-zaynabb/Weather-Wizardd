@@ -1,9 +1,25 @@
 import { motion } from "framer-motion";
 
-const clouds = ["☁️", "⛅", "🌥️"];
-const weatherEmojis = ["🌤️", "🌧️", "🌩️", "❄️", "🌪️"];
+interface AnimatedBackgroundProps {
+  weatherType: string;
+}
 
-export default function AnimatedBackground() {
+export default function AnimatedBackground({ weatherType }: AnimatedBackgroundProps) {
+  // Map weather types to emojis
+  const weatherEmojisMap: Record<string, string[]> = {
+    Clear: ["☀️", "🌤️"],
+    Clouds: ["☁️", "🌥️", "⛅"],
+    Rain: ["🌧️", "⛈️", "💦"],
+    Snow: ["❄️", "🌨️"],
+    Drizzle: ["🌦️", "💧"],
+    Thunderstorm: ["🌩️", "⚡"],
+    Mist: ["🌫️", "💨"],
+    Default: ["🌍", "🌈"],
+  };
+
+  const clouds = ["☁️", "🌥️", "⛅"];
+  const emojis = weatherEmojisMap[weatherType] || weatherEmojisMap.Default;
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Clouds */}
@@ -38,7 +54,7 @@ export default function AnimatedBackground() {
             ease: "easeInOut",
           }}
         >
-          {weatherEmojis[Math.floor(Math.random() * weatherEmojis.length)]}
+          {emojis[Math.floor(Math.random() * emojis.length)]}
         </motion.div>
       ))}
     </div>

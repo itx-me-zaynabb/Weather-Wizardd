@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getWeather, getForecast } from "../services/weatherApi";
+import { getWeather, getForecast } from "../services/WeatherAPI";
 import { motion } from "framer-motion";
 
 export default function WeatherPage() {

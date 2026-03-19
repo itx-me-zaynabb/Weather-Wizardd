@@ -1,6 +1,6 @@
 import AnimatedBackground from "../components/AnimatedBackground";
 import WeatherCard from "../components/WeatherCard";
-import ForecastCard from "../components/ForecastCard";
+import ForecastCard from "../components/ForecastCardjsx";
 import Loader from "../components/Loader";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";

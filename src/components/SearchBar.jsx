@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+const API_KEY = "YOUR_API_KEY";
+
 export default function SearchBar() {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -10,7 +12,7 @@ export default function SearchBar() {
     const timer = setTimeout(() => {
       if (query.length > 2) {
         fetch(
-          `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=YOUR_API_KEY`,
+          `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`,
         )
           .then((res) => res.json())
           .then(setSuggestions);
@@ -26,7 +28,7 @@ export default function SearchBar() {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search city..."
-        className="p-3 rounded-xl bg-white/10 border border-white/30 w-full"
+        className="p-3 rounded-xl bg-white/10 border border-white/30 w-full text-white"
       />
 
       {suggestions.length > 0 && (

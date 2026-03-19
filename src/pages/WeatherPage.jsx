@@ -1,4 +1,4 @@
-//import AnimatedBackground from "../components/AnimatedBackground";
+import AnimatedBackground from "../components/AnimatedBackground";
 import WeatherCard from "../components/WeatherCard";
 import ForecastCard from "../components/ForecastCardjsx";
 import Loader from "../components/Loader";
@@ -29,7 +29,7 @@ export default function WeatherPage() {
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-blue-500 to-purple-700 text-white p-6 overflow-hidden">
       {/* Animated Clouds & Emojis */}
-
+      <AnimatedBackground weatherType={weather.weather[0].main} />
       {/* Weather Card */}
       <WeatherCard weather={weather} />
 

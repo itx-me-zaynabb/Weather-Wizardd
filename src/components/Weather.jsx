@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./index.css"; // Import CSS
 
 const Weather = () => {
   const [city, setCity] = useState("");
@@ -8,19 +9,20 @@ const Weather = () => {
   const [loading, setLoading] = useState(false);
   const [dark, setDark] = useState(true);
 
+  // Load theme from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     if (saved) setDark(saved === "dark");
   }, []);
 
   useEffect(() => {
-    document.body.classList.toggle("dark", dark); // ✅ FIX
+    document.body.classList.toggle("dark", dark);
     localStorage.setItem("theme", dark ? "dark" : "light");
   }, [dark]);
 
   const fetchWeather = async () => {
     if (!city.trim()) {
-      setError("Enter city name");
+      setError("Please enter a city name");
       return;
     }
 
@@ -30,14 +32,12 @@ const Weather = () => {
 
     try {
       const apiKey = "f9af8cff645b7ef7b8675f03b27f0e4b";
-
       const res = await axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`,
       );
-
       setWeather(res.data);
     } catch (err) {
-      setError(err.response?.data?.message || "Error fetching weather");
+      setError(err.response?.data?.message || "Failed to fetch weather");
     } finally {
       setLoading(false);
     }
@@ -45,12 +45,15 @@ const Weather = () => {
 
   return (
     <div className="appWrapper">
-      <button className="themeBtn" onClick={() => setDark(!dark)}>
-        {dark ? "☀ Light" : "🌙 Dark"}
+      <button
+        className={`themeBtn ${dark ? "darkBtn" : "lightBtn"}`}
+        onClick={() => setDark(!dark)}
+      >
+        {dark ? "☀ Light Mode" : "🌙 Dark Mode"}
       </button>
 
       <div className="Container">
-        <h1> 🌤 Weather Wizard 🌈</h1>
+        <h1 className="title">🌤 Weather Wizard 🌈</h1>
 
         <input
           className="inputField"
@@ -61,21 +64,23 @@ const Weather = () => {
         />
 
         <button className="btn" onClick={fetchWeather}>
-          {loading ? "Loading..." : "Get Weather"}
+          {loading ? "Fetching..." : "Get Weather"}
         </button>
 
         {error && <p className="error">{error}</p>}
+
         {loading && <div className="loader"></div>}
 
         {weather && !loading && (
-          <div className="weatherBox">
+          <div className="weatherBox animateCard">
             <h3>
               {weather.name}, {weather.sys.country}
             </h3>
 
             <img
               src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-              alt=""
+              alt="weather icon"
+              className="weatherIcon"
             />
 
             <h2>{Math.round(weather.main.temp)}°C</h2>
@@ -83,7 +88,7 @@ const Weather = () => {
 
             <div className="extra">
               <span>💧 {weather.main.humidity}%</span>
-              <span>🌡 {Math.round(weather.main.feels_like)}°C</span>
+              <span>🌡 Feels like {Math.round(weather.main.feels_like)}°C</span>
               <span>💨 {weather.wind.speed} m/s</span>
             </div>
           </div>

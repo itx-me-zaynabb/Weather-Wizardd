@@ -3,29 +3,33 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-/* 🌗 Theme Variables */
+/* Theme Variables */
 :root {
   --bg-image: url("assets/weather1.jpg");
   --text-color: #111;
-  --card-bg: rgba(255, 255, 255, 0.6);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --btn-bg: linear-gradient(135deg, #2a4d7a, #4b79a1);
+  --btn-hover: linear-gradient(135deg, #3b5f8a, #5a8cb2);
 }
 
 body.dark {
   --bg-image: url("assets/dark.jpeg");
   --text-color: #fff;
-  --card-bg: rgba(0, 0, 0, 0.5);
+  --card-bg: rgba(0, 0, 0, 0.6);
+  --btn-bg: linear-gradient(135deg, #444, #666);
+  --btn-hover: linear-gradient(135deg, #555, #777);
 }
 
 /* Body */
 body {
   background: var(--bg-image) center/cover no-repeat;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Poppins", sans-serif;
   padding: 15px;
   transition: all 0.5s ease;
   color: var(--text-color);
@@ -35,92 +39,192 @@ body {
 .Container {
   background: var(--card-bg);
   backdrop-filter: blur(15px);
-  width: 350px;
+  width: 400px;
   max-width: 100%;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  padding: 40px 30px;
+  border-radius: 25px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   text-align: center;
-  transition: all 0.4s ease;
+  transition: transform 0.4s ease, background 0.5s ease;
 }
 
-/* Hover effect */
 .Container:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
 }
 
 /* Title */
-.Container h1 {
-  margin-bottom: 20px;
-  font-size: 26px;
+.title {
+  margin-bottom: 25px;
+  font-size: 30px;
+  font-weight: 600;
+  animation: fadeIn 1s ease forwards;
 }
 
 /* Input */
 .inputField {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border: none;
   outline: none;
-  border-radius: 10px;
-  background: #fff;
-  font-size: 15px;
-  margin-bottom: 12px;
+  border-radius: 12px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  transition: 0.3s;
 }
 
-/* Button */
+.inputField:focus {
+  box-shadow: 0 0 10px rgba(0, 150, 255, 0.5);
+  transform: scale(1.02);
+}
+
+/* Buttons */
 .btn {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border: none;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #2a4d7a, #4b79a1);
+  border-radius: 12px;
+  background: var(--btn-bg);
   color: #fff;
   font-size: 16px;
   cursor: pointer;
-  transition: 0.3s;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .btn:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
+  background: var(--btn-hover);
+  transform: translateY(-2px) scale(1.03);
 }
 
-/* 🌗 Toggle Buttons */
-.themeToggle {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.themeToggle button {
-  flex: 1;
-  margin: 0 5px;
-  padding: 8px;
+.themeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 20px;
+  font-weight: 600;
   cursor: pointer;
-  background: #fff;
-  font-weight: bold;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-.themeToggle button:hover {
-  transform: scale(1.05);
+.themeBtn:hover {
+  transform: scale(1.1) rotate(3deg);
 }
 
-/* Weather Info */
+.lightBtn {
+  background: linear-gradient(135deg, #fffae6, #ffd86e);
+  color: #111;
+}
+
+.darkBtn {
+  background: linear-gradient(135deg, #444, #666);
+  color: #fff;
+}
+
+/* Error */
+.error {
+  color: #ff5555;
+  margin-top: 10px;
+  font-weight: 500;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* Loader */
+.loader {
+  border: 4px solid rgba(0,0,0,0.1);
+  border-left-color: #2a4d7a;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 20px auto;
+  animation: spin 1s linear infinite;
+}
+
+/* Weather Card */
 .weatherBox {
-  margin-top: 15px;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(12px);
+  transition: transform 0.5s ease, background 0.5s ease;
+  animation: fadeInUp 0.8s ease forwards;
 }
 
-.weatherBox img {
-  width: 80px;
+.weatherBox:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.weatherBox img.weatherIcon {
+  width: 90px;
+  margin: 10px 0;
+  animation: bounce 1.2s infinite;
+}
+
+.weatherBox h2 {
+  font-size: 42px;
+  margin: 5px 0;
+}
+
+.weatherBox .desc {
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-bottom: 10px;
+}
+
+.weatherBox .extra {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+/* Animations */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* Responsive */
 @media (max-width: 480px) {
   .Container {
     width: 100%;
-    padding: 20px;
+    padding: 25px 15px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .weatherBox h2 {
+    font-size: 36px;
+  }
+
+  .btn, .inputField {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .themeBtn {
+    padding: 8px 14px;
+    top: 15px;
+    right: 15px;
   }
 }

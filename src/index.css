@@ -13,7 +13,7 @@ body {
 }
 
 body {
-  background: url("assets/Background\ img.jpeg") center/cover no-repeat;
+  background: url("pages/Background\ img.jpeg") center/cover no-repeat;
   height: 100vh;
   display: flex;
   justify-content: center;

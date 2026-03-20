@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Weather = () => {
@@ -6,10 +6,21 @@ const Weather = () => {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [dark, setDark] = useState(true);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    if (saved) setDark(saved === "dark");
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle("dark", dark); // ✅ FIX
+    localStorage.setItem("theme", dark ? "dark" : "light");
+  }, [dark]);
 
   const fetchWeather = async () => {
     if (!city.trim()) {
-      setError("Please enter a city name.");
+      setError("Enter city name");
       return;
     }
 
@@ -21,9 +32,7 @@ const Weather = () => {
       const apiKey = "f9af8cff645b7ef7b8675f03b27f0e4b";
 
       const res = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
-          city.trim(),
-        )}&appid=${apiKey}&units=metric`,
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`,
       );
 
       setWeather(res.data);
@@ -34,90 +43,52 @@ const Weather = () => {
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") fetchWeather();
-  };
-
-  const bg =
-    weather?.main?.temp > 30
-      ? "from-orange-400 to-red-500"
-      : weather?.main?.temp < 10
-        ? "from-blue-400 to-indigo-600"
-        : "from-gray-700 to-gray-900";
-
   return (
-    <div
-      className={`min-h-screen flex flex-col items-center justify-center bg-gradient-to-br ${bg} text-white px-4`}
-    >
-      <h1 className="text-4xl font-bold mb-6 animate-pulse">🌤 Weather Pro</h1>
+    <div className="appWrapper">
+      <button className="themeBtn" onClick={() => setDark(!dark)}>
+        {dark ? "☀ Light" : "🌙 Dark"}
+      </button>
 
-      <div className="flex gap-2 w-full max-w-md">
+      <div className="Container">
+        <h1>🌤 Weather Pro</h1>
+
         <input
-          className="flex-1 px-4 py-2 rounded-lg text-black outline-none shadow-lg"
-          type="text"
-          placeholder="Enter city name..."
+          className="inputField"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          onKeyDown={handleKeyDown}
+          onKeyDown={(e) => e.key === "Enter" && fetchWeather()}
+          placeholder="Enter city..."
         />
 
-        <button
-          className="bg-black px-4 py-2 rounded-lg hover:scale-105 transition"
-          onClick={fetchWeather}
-          disabled={loading}
-        >
-          {loading ? "..." : "Search"}
+        <button className="btn" onClick={fetchWeather}>
+          {loading ? "Loading..." : "Get Weather"}
         </button>
-      </div>
 
-      {error && (
-        <p className="mt-4 bg-red-500/20 px-4 py-2 rounded-lg">{error}</p>
-      )}
+        {error && <p className="error">{error}</p>}
+        {loading && <div className="loader"></div>}
 
-      {loading && (
-        <div className="mt-6 animate-spin h-10 w-10 border-4 border-white border-t-transparent rounded-full"></div>
-      )}
+        {weather && !loading && (
+          <div className="weatherBox">
+            <h3>
+              {weather.name}, {weather.sys.country}
+            </h3>
 
-      {weather && !loading && (
-        <div className="mt-8 w-full max-w-md bg-white/10 backdrop-blur-lg p-6 rounded-2xl shadow-xl text-center">
-          <h2 className="text-2xl font-semibold">
-            {weather.name}, {weather.sys?.country}
-          </h2>
+            <img
+              src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+              alt=""
+            />
 
-          <p className="text-sm opacity-80">{new Date().toLocaleString()}</p>
+            <h2>{Math.round(weather.main.temp)}°C</h2>
+            <p className="desc">{weather.weather[0].description}</p>
 
-          <img
-            className="mx-auto"
-            src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-            alt={weather.weather[0].description}
-          />
-
-          <p className="text-4xl font-bold">
-            {Math.round(weather.main.temp)}°C
-          </p>
-
-          <p className="capitalize text-lg">{weather.weather[0].description}</p>
-
-          <div className="flex justify-between mt-6 text-sm">
-            <div>
-              <p>💧 Humidity</p>
-              <p className="font-bold">{weather.main.humidity}%</p>
-            </div>
-
-            <div>
-              <p>🌡 Feels</p>
-              <p className="font-bold">
-                {Math.round(weather.main.feels_like)}°C
-              </p>
-            </div>
-
-            <div>
-              <p>💨 Wind</p>
-              <p className="font-bold">{weather.wind.speed} m/s</p>
+            <div className="extra">
+              <span>💧 {weather.main.humidity}%</span>
+              <span>🌡 {Math.round(weather.main.feels_like)}°C</span>
+              <span>💨 {weather.wind.speed} m/s</span>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

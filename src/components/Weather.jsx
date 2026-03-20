@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./index.css"; // Import CSS
+import "./index.css";
 
 const Weather = () => {
   const [city, setCity] = useState("");
@@ -9,7 +9,6 @@ const Weather = () => {
   const [loading, setLoading] = useState(false);
   const [dark, setDark] = useState(true);
 
-  // Load theme from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("theme");
     if (saved) setDark(saved === "dark");
@@ -22,7 +21,7 @@ const Weather = () => {
 
   const fetchWeather = async () => {
     if (!city.trim()) {
-      setError("Please enter a city name");
+      setError("Enter city name");
       return;
     }
 
@@ -37,7 +36,7 @@ const Weather = () => {
       );
       setWeather(res.data);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to fetch weather");
+      setError(err.response?.data?.message || "Error fetching weather");
     } finally {
       setLoading(false);
     }
@@ -45,6 +44,7 @@ const Weather = () => {
 
   return (
     <div className="appWrapper">
+      {/* Theme toggle button */}
       <button
         className={`themeBtn ${dark ? "darkBtn" : "lightBtn"}`}
         onClick={() => setDark(!dark)}
@@ -64,31 +64,28 @@ const Weather = () => {
         />
 
         <button className="btn" onClick={fetchWeather}>
-          {loading ? "Fetching..." : "Get Weather"}
+          {loading ? "Loading..." : "Get Weather"}
         </button>
 
         {error && <p className="error">{error}</p>}
-
         {loading && <div className="loader"></div>}
 
         {weather && !loading && (
-          <div className="weatherBox animateCard">
+          <div className="weatherBox">
             <h3>
               {weather.name}, {weather.sys.country}
             </h3>
-
             <img
               src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
               alt="weather icon"
               className="weatherIcon"
             />
-
             <h2>{Math.round(weather.main.temp)}°C</h2>
             <p className="desc">{weather.weather[0].description}</p>
 
             <div className="extra">
               <span>💧 {weather.main.humidity}%</span>
-              <span>🌡 Feels like {Math.round(weather.main.feels_like)}°C</span>
+              <span>🌡 {Math.round(weather.main.feels_like)}°C</span>
               <span>💨 {weather.wind.speed} m/s</span>
             </div>
           </div>

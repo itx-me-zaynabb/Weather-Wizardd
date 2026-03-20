@@ -6,14 +6,17 @@ import ThemeToggle from "./components/Themetoggle";
 
 function App() {
   return (
-    <BrowserRouter>
-      <ThemeToggle />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Weather />
-        <Route path="/weather/:city" element={<WeatherPage />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <ThemeToggle />
+        <Routes>
+          <Route path="/" element={<Home />} />
+
+          <Route path="/weather/:city" element={<WeatherPage />} />
+        </Routes>
+      </BrowserRouter>
+      <Weather />
+    </>
   );
 }
 

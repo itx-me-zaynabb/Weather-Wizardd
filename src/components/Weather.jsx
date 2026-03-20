@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./index.css";
 
 const Weather = () => {
   const [city, setCity] = useState("");

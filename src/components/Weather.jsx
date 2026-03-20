@@ -50,7 +50,7 @@ const Weather = () => {
       </button>
 
       <div className="Container">
-        <h1>🌤 Weather Pro</h1>
+        <h1> 🌤 Weather Wizard 🌈</h1>
 
         <input
           className="inputField"

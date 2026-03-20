@@ -7,13 +7,13 @@
 
 /* 🌗 Theme Variables */
 :root {
-  --bg-image: url("assets/light.jpg");
+  --bg-image: url("pages/weather1.jpg");
   --text-color: #111;
   --card-bg: rgba(255, 255, 255, 0.6);
 }
 
 body.dark {
-  --bg-image: url("assets/dark.jpg");
+  --bg-image: url("pages//Background\ img.jpeg");
   --text-color: #fff;
   --card-bg: rgba(0, 0, 0, 0.5);
 }

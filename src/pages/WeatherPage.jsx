@@ -1,7 +1,7 @@
-import AnimatedBackground from "../components/AnimatedBackground";
+//import AnimatedBackground from "../components/AnimatedBackground";
 import WeatherCard from "../components/WeatherCard";
 import ForecastCard from "../components/ForecastCardjsx";
-import WeatherBanner from "../components/WeatherBanner";
+//import WeatherBanner from "../components/WeatherBanner";
 import Loader from "../components/Loader";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -29,8 +29,8 @@ export default function WeatherPage() {
 
   return (
     <div className="min-h-screen relative bg-gradient-to-br from-blue-500 to-purple-700 text-white p-6 overflow-hidden">
-      <AnimatedBackground weatherType={weather.weather[0].main} />
-      <WeatherBanner weather={weather} />
+      {/*<AnimatedBackground weatherType={weather.weather[0].main} />*/}
+      {/* <WeatherBanner weather={weather} /> */}
       <WeatherCard weather={weather} />
       <ForecastCard forecast={forecast} />
     </div>

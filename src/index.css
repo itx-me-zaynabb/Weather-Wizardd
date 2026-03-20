@@ -1,61 +1,79 @@
-/* index.css */
-body {
-  background: linear-gradient(to bottom right, #2563eb, #7c3aed);
-}
-
-.dark body {
-  background: #000000;
-}
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* 🌗 Theme Variables */
+:root {
+  --bg-image: url("assets/light.jpg");
+  --text-color: #111;
+  --card-bg: rgba(255, 255, 255, 0.6);
+}
+
+body.dark {
+  --bg-image: url("assets/dark.jpg");
+  --text-color: #fff;
+  --card-bg: rgba(0, 0, 0, 0.5);
+}
+
+/* Body */
 body {
-  background: url("pages/Background\ img.jpeg") center/cover no-repeat;
+  background: var(--bg-image) center/cover no-repeat;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Poppins", sans-serif;
   padding: 15px;
+  transition: all 0.5s ease;
+  color: var(--text-color);
 }
 
+/* Container */
 .Container {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+  background: var(--card-bg);
+  backdrop-filter: blur(15px);
   width: 350px;
   max-width: 100%;
   padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
   text-align: center;
-  color: #fff;
+  transition: all 0.4s ease;
 }
 
+/* Hover effect */
+.Container:hover {
+  transform: scale(1.02);
+}
+
+/* Title */
 .Container h1 {
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 26px;
 }
 
+/* Input */
 .inputField {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: none;
   outline: none;
-  border-radius: 8px;
+  border-radius: 10px;
   background: #fff;
   font-size: 15px;
   margin-bottom: 12px;
 }
 
+/* Button */
 .btn {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: none;
-  border-radius: 8px;
-  background: #2a4d7a;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2a4d7a, #4b79a1);
   color: #fff;
   font-size: 16px;
   cursor: pointer;
@@ -63,12 +81,40 @@ body {
 }
 
 .btn:hover {
-  background: #1e3657;
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 
-.Container p {
-  margin-top: 8px;
-  font-size: 15px;
+/* 🌗 Toggle Buttons */
+.themeToggle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.themeToggle button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #fff;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.themeToggle button:hover {
+  transform: scale(1.05);
+}
+
+/* Weather Info */
+.weatherBox {
+  margin-top: 15px;
+}
+
+.weatherBox img {
+  width: 80px;
 }
 
 /* Responsive */
@@ -76,15 +122,5 @@ body {
   .Container {
     width: 100%;
     padding: 20px;
-  }
-
-  .Container h1 {
-    font-size: 20px;
-  }
-
-  .inputField,
-  .btn {
-    font-size: 14px;
-    padding: 9px;
   }
 }
